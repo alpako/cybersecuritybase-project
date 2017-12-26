@@ -67,4 +67,9 @@ public class User {
     public void setCourses(Set<Course> courses) {
         this.courses = courses;
     }
+
+    public Long getId() {
+        return id;
+    }
+
 }

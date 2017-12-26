@@ -11,8 +11,7 @@
 <form action="#" th:action="@{/user/update}" method="POST">
     <p><label for="usernameDisplay">User Name</label>: <input type="text" name="usernameDisplay" id="usernameDisplay"
                                                               th:value="${username}" disabled="disabled"/></p>
-    <p><label for="username">User Name</label>: <input type="text" name="username" id="username" th:value="${username}"
-                                                       hidden="hidden"/></p>
+    <input type="text" name="username" id="username" th:value="${username}" hidden="hidden"/>
     <p><label for="password">Password</label>: <input type="password" name="password" id="password"/></p>
     <p><label for="fullname">Full Name</label>: <input type="text" name="fullname" id="fullname"
                                                        th:value="${fullname}"/></p>

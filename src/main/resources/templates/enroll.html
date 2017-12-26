@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Enroll</title>
+    </head>
+    <body>
+
+    <h1>Enroll to a course</h1>
+
+    <div>Hello <span th:text="${fullname}">fullname</span></div>
+    <form action="#" th:action="@{/course/enroll}" method="POST">
+        <p><label for="courseId">Sign up to course</label> <select name="courseId" id="courseId">
+            <option th:each="course : ${courses}" th:value="${course.getId()}" th:text="${course.getName()}">Course
+                Option
+            </option>
+        </select>
+        </p>
+            <p><input type="submit" value="Submit" /></p>
+        </form>
+
+        <p></p>
+    </body>
+</html>

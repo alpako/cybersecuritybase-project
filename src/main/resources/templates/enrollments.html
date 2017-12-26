@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sign up form</title>
+</head>
+<body>
+
+<h1>Enrollments</h1>
+
+<div>
+    You (<span th:text="${fullname}">Full Name</span>) enrolled to the following courses:
+</div>
+<ul th:each="course : ${courses}">
+    <li th:text="${course.getName()}">Course Name</li>
+</ul>
+
+</body>
+</html>

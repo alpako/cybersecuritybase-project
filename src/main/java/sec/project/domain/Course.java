@@ -39,4 +39,21 @@ public class Course {
     public void setParticipants(Set<User> participants) {
         this.participants = participants;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void addParticipant(User participant) {
+        this.participants.add(participant);
+    }
+
+    public boolean hasParticipant(User participant) {
+        for (User user : this.participants) {
+            if (user.getId().equals(participant.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
