@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,7 +31,7 @@ public class CourseController {
     }
 
     @RequestMapping(value = "/course/enroll", method = RequestMethod.POST)
-    public String submitForm(Authentication authentication, RedirectAttributes redirectAttributes, @RequestParam Long courseId) {
+    public String enroll(Authentication authentication, RedirectAttributes redirectAttributes, @RequestParam Long courseId) {
         User user = userRepository.getUserByUsername(authentication.getName());
         Course course = courseRepository.findOne(courseId);
         if (course.hasParticipant(user)) {
@@ -43,6 +44,21 @@ public class CourseController {
         }
     }
 
+    @RequestMapping(value = "/course/disenroll/{key}", method = RequestMethod.POST)
+    public String disenroll(Authentication authentication, RedirectAttributes redirectAttributes, @PathVariable(value = "key") Long courseId) {
+        User user = userRepository.getUserByUsername(authentication.getName());
+        Course course = courseRepository.findOne(courseId);
+
+        if (course.hasParticipant(user)) {
+            course.deleteParticipant(user);
+            courseRepository.save(course);
+            redirectAttributes.addFlashAttribute("successMessage", "Disenrolled!");
+            return "redirect:/";
+        } else {
+            return "redirect:/";
+        }
+    }
+
     @RequestMapping(value = "/course/enrollments", method = RequestMethod.GET)
     public String viewEnrollments(Authentication authentication, Model model) {
         User user = userRepository.getUserByUsername(authentication.getName());
@@ -51,8 +67,27 @@ public class CourseController {
         return "enrollments";
     }
 
+    @RequestMapping(value = "/course/disenrollUser/{course}/{user}", method = RequestMethod.POST)
+    public String disenrollUser(RedirectAttributes redirectAttributes,
+                                @PathVariable(value = "course") Long courseId,
+                                @PathVariable(value = "user") Long userId) {
+        User user = userRepository.findOne(userId);
+        Course course = courseRepository.findOne(courseId);
+
+        if (user != null && course != null && course.hasParticipant(user)) {
+            course.deleteParticipant(user);
+            courseRepository.save(course);
+            redirectAttributes.addFlashAttribute("successMessage", "Disenrolled User!");
+            return "redirect:/";
+        } else {
+            return "redirect:/";
+        }
+    }
+
+
     @RequestMapping(value = "/admin/course/enrollments", method = RequestMethod.GET)
-    public String getSignups(Authentication authentication, Model model) {
+    public String getSignups(Model model) {
+        model.addAttribute("courses", courseRepository.findAll());
         return "admin/enrollments";
     }
 

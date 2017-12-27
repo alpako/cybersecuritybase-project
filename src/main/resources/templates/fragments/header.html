@@ -1,0 +1,25 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:fragment="header-css">
+        <!-- this is header-css -->
+        <link rel="stylesheet" type="text/css"
+              href="/webjars/materializecss/0.100.2/css/materialize.css"/>
+        <link rel="stylesheet" type="text/css"
+              href="/webjars/material-design-icons/3.0.1/material-icons.css"/>
+
+        <link rel="stylesheet" th:href="@{/css/main.css}"
+              href="../../static/css/main.css"/>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </div>
+</head>
+<body>
+<div th:fragment="header">
+    <!-- this is header -->
+    <nav>
+        <a href="/">Home</a>
+    </nav>
+</div>
+
+</body>
+</html>

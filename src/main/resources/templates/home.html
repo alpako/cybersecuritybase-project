@@ -6,29 +6,37 @@
 </head>
 <body>
 
-<div th:text="${successMessage}" style="color: green">Success Message</div>
+<div th:replace="fragments/header :: header"/>
 
-<h1>Welcome</h1>
+<div th:text="${successMessage}" style="color: green">Success Message</div>
+<div th:switch="${user}">
+    <h1 th:case="${null}" th:text="${'Welcome!'}"></h1>
+    <h1 th:case="*" th:text="${'Welcome ' + user + '!'}">Welcome</h1>
+</div>
+
 
 <nav>
-    <h4>public</h4>
+    <h4>Public</h4>
     <ul>
-        <li><a href="/">Home</a></li>
+        <!--<li><a href="/">Home</a></li>-->
         <li><a href="/user/register">Register</a></li>
-        <li><a href="/login">Login</a></li>
+        <!--<li><a href="/login">Login</a></li>-->
     </ul>
     <h4>User</h4>
     <ul>
         <li><a href="/user/update">Update Account</a></li>
         <li><a href="/course/enroll">Enroll to Course</a></li>
         <li><a href="/course/enrollments">Enrolled Courses</a></li>
-        <li><a href="/logout">Logout</a></li>
+        <!--<li><a href="/logout">Logout</a></li>-->
     </ul>
     <h4>Admin</h4>
     <ul>
-        <li><a href="/logout">Logout</a></li>
+        <li><a href="/admin/course/enrollments">Enrolled Courses</a></li>
+        <!--<li><a href="/logout">Logout</a></li>-->
     </ul>
 </nav>
+
+<div th:replace="fragments/footer :: footer"/>
 
 </body>
 </html>

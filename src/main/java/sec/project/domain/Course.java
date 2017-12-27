@@ -2,6 +2,7 @@ package sec.project.domain;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Course {
@@ -55,5 +56,11 @@ public class Course {
             }
         }
         return false;
+    }
+
+    public void deleteParticipant(User participant) {
+        this.participants = this.participants.stream().filter(
+                p -> !p.getId().equals(participant.getId())
+        ).collect(Collectors.toSet());
     }
 }
