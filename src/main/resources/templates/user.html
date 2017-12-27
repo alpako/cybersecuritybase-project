@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Register New User</title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<h1>Update Userinfo</h1>
+
+<p><strong>User Id:</strong> <span th:text="${user.getId()}">id</span></p>
+<p><strong>Username:</strong> <span th:text="${user.getUsername()}">username</span></p>
+<p><strong>Full Name:</strong> <span th:text="${user.getFullname()}">full name</span></p>
+<p><strong>Address:</strong> <span th:utext="${user.getAddress()}">address</span></p>
+
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

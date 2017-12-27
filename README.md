@@ -1,9 +1,24 @@
 # Cybersecuritybase-Project
 
-This project implements 5 security bugs from the 
+This project is developed for the [Cyber Security Base](https://cybersecuritybase.github.io/) 
+course. The idea of this project is to be a course signup page with simple
+user registration and role management. It implements 5 security issues from the 
 [OWASP 2013 Top 10](https://www.owasp.org/index.php/Top_10_2013-Top_10)
 list. The source code is available at gihub:
 [https://github.com/alpako/cybersecuritybase-project](https://github.com/alpako/cybersecuritybase-project).
+
+The [cybersceuritybase-project template](https://github.com/cybersecuritybase/cybersecuritybase-project) 
+is used. Hence it can easily be compiled and Run by an IDE or Maven.
+
+instructions to run project from commandline:
+```
+git clone https://github.com/alpako/cybersecuritybase-project
+cd cybersecuritybase-project
+mvn spring-boot:run
+```
+
+Some steps require 
+[OWASP ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project).
 
 ## Issues
 

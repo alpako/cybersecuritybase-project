@@ -65,4 +65,11 @@ public class UserController {
         userRepository.save(user);
         return "home";
     }
+
+    @RequestMapping(path = "/user/view", method = RequestMethod.GET)
+    public String update(Authentication authentication, Model model) {
+        User user = userRepository.getUserByUsername(authentication.getName());
+        model.addAttribute("user", user);
+        return "user";
+    }
 }
