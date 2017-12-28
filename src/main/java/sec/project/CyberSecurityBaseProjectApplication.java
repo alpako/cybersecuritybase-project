@@ -26,13 +26,13 @@ public class CyberSecurityBaseProjectApplication {
     @Bean
     public CommandLineRunner init(UserRepository userRepository, CourseRepository courseRepository) {
         return (args) -> {
-            User user = new User("admin", passwordEncoder.encode("1234"), "The administrator", "Secret Address",
+            User user = new User("admin", passwordEncoder.encode("super-secret-password"), "The administrator", "Secret Status",
                     new HashSet<>());
             userRepository.save(user);
 
             for (int i = 0; i < 10; i++) {
                 user = new User("user" + i, passwordEncoder.encode("1234"), "User Name " + i,
-                        "World Street " + 1, new HashSet<>());
+                        "This is an awesome message for everyone to read", new HashSet<>());
                 userRepository.save(user);
                 Course course = new Course("my security course " + i, new HashSet<>());
                 courseRepository.save(course);

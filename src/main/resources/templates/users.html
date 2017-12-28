@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Register New User</title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<h1>All Users</h1>
+<ul th:each="user : ${users}">
+    <li>
+        <p><strong>Username:</strong> <span th:text="${user.getUsername()}">username</span> -
+            <strong>Status:</strong> <span th:utext="${user.getStatus()}">status</span></p>
+    </li>
+</ul>
+
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

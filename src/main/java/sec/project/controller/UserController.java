@@ -30,10 +30,10 @@ public class UserController {
 
     @RequestMapping(path = "/user/register", method = RequestMethod.POST)
     public String register(Model model, RedirectAttributes redirectAttributes, @RequestParam String username, @RequestParam String password,
-                           @RequestParam String fullname, @RequestParam String address) {
+                           @RequestParam String fullname, @RequestParam String status) {
         User user = userRepository.getUserByUsername(username);
         if (user == null) {
-            User newUser = new User(username, passwordEncoder.encode(password), fullname, address, new HashSet<>());
+            User newUser = new User(username, passwordEncoder.encode(password), fullname, status, new HashSet<>());
             userRepository.save(newUser);
             redirectAttributes.addFlashAttribute("successMessage", "Registration Successful.");
 //            model.addAttribute("successMessage","Registration Successful.");
@@ -49,19 +49,18 @@ public class UserController {
         User user = userRepository.getUserByUsername(authentication.getName());
         model.addAttribute("username", user.getUsername());
         model.addAttribute("fullname", user.getFullname());
-        model.addAttribute("address", user.getAddress());
+        model.addAttribute("status", user.getStatus());
         return "update";
 
     }
 
     @RequestMapping(path = "/user/update", method = RequestMethod.POST)
     public String update(@RequestParam String username, @RequestParam String password,
-                         @RequestParam String fullname, @RequestParam String address) {
+                         @RequestParam String fullname, @RequestParam String status) {
         User user = userRepository.getUserByUsername(username);
-        user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setFullname(fullname);
-        user.setAddress(address);
+        user.setStatus(status);
         userRepository.save(user);
         return "home";
     }
@@ -71,5 +70,11 @@ public class UserController {
         User user = userRepository.getUserByUsername(authentication.getName());
         model.addAttribute("user", user);
         return "user";
+    }
+
+    @RequestMapping(path = "/user/list", method = RequestMethod.GET)
+    public String userList(Authentication authentication, Model model) {
+        model.addAttribute("users", userRepository.findAll());
+        return "users";
     }
 }

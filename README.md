@@ -24,54 +24,121 @@ Some steps require
 
 ### Issue: A2 Broken Authentication - Password Management
 
+#### Reproduction Steps
+
+1. Start ZAP and set it up as your browser proxy
+2. In your web browser go to: `http://localhost:8080`
+3. Click _Sign in_ and login as
+    * user: user1
+    * password: 1234
+4. Click _Update Account_
+5. Enter new credentials eg:
+    * password: 0000
+    * full name: The First User
+    * Address: happy hacking
+6. click _Submit_
+7. look at the ZAP hisory and find the last POST request to `http://localhost:8080/user/update`
+8. Right click on the request and select _Resend..._ 
+9. Change the post parameters to
+    * username=admin&password=admin&fullname=Hacked+Admin&status=happy+hacking
+10. Click _Send_
+11. in your browser click _Sign Out_ and then enter the admin credentials you just set
+    * user: admin
+    * password: admin
+12. click login
+13. You sucessfully signed in as admin
+
+#### Fix 
+
+POST request mapping for `/user/update` can be found in class
+`sec.project.UserController.update`. Instead of using a `@RequestParam String
+username` to retrieve the username it should use an `Authentication` object
+to retrieve the username.
+
+
+
 ### Issue: A3 XSS - Password Change
+
+#### Reproduction Steps
+
+1. go to `http://localhost:8080/`
+2. _Sign in_ as _user6_ with password _1234_
+3. Click _Update Account_
+4. Enter information:
+   * Password: 1234
+   * Full Name: My Real Name
+   * Status: `A harmless message<script>alert("Hello there. You got hacked.");</script>`
+5. click _Submit_
+6. click _Sign Out_
+7. _Sign in_ as _user7_ with password _1234_
+8. click _View all users_
+9. an alert message pops up reading "Hello there. You got hacked."
+
+#### Fix
+
+The way the status is shown in the `users.html` page allows the user
+to execute any html.
+```
+<span th:utext="${user.getStatus()}">status</span>
+```
+Instead of thymeleaf attribute `th:utext` only use attribute `th:text`.
+While the earlier just uses the original text, 
+the latter escapes potenitally dangerous charaters to prevent XSS attacks.
+
 
 ### Issue: A8 CSRF - Password Change
 
+#### Reproduction Steps
+
+TODO
+
+#### Fix
+
+TODO
+
 ### Issue: A7 Missing FLAC - Withdraw Enrollment
+
+1. go to `http://localhost:8080/`
+2. _Sign in_ as _user5_ with password _1234_
+3. Look up in the `Hacking Information` section of the page
+   a _course id_ (blue) and a corresponding _user id_ (red).
+4. then go to url 
+`http://localhost:8080/course/disenrollUser/<course id>/<user id>`
+5. notice `Hacking Information` section how the user got disenrolled (disappeared)
+   from the course
+
+### Fix
+
+TODO
+
+
 
 ### Issue: A5 security configuration - H2 Console Access
 
-## How to Fix the Flaws
-
-### Fix: A2 Broken Authentication - Password Management
-
-### Fix: A3 XSS - Password Change
-
-### Fix: A8 CSRF - Password Change
-
-### Fix: A7 Missing FLAC - Withdraw Enrollment
-
-### Fix: A5 security configuration - H2 Console Access
-
-## outline
-* Registration Page for students
-  * A2 overwrite security credentials
-* Login page
-* change password page
-  * A3
-  * A8
-* Homepage
-* Course Selection page (signup & drop out)
-* Course participants page (remove participant)
-  * A7 remove without permission
-* h2 console available
-  * security misconfiguration
-  * A5
-
-## Issue Template
-Issue: SQL Injection
-Steps to reproduce:
-1. Open Injection Flaws
-2. Select Numeric SQL Injection
-3. Open Developer Console
-4. Inspect the Weather Station Element
-5. In the Developer Console, find the select element that
-   lists the weather stations.
-6. Edit one of the option elements within the select element and
-   change the option value to "101 OR station < 9999999".
-7. Select the altered option from the dropdown list on the page
-8. Press Go!
-9. You can now see all weather the weather data.
+The request mapping for `/course/disenrollUser/<course id>/<user id>`
+is only used on page `http://localhost:8080/admin/course/enrollments`,
+which is only accessible by the _admin_ user.
+But the request mapping itself still remains accessible to every regisered
+as it matches the security config for `/course/**`.
+This issue can be fixed moving the requestmapping to the path 
+starting with `/admin/` which is only accessible by the _admin_ user.
 
 
+#### Reproduction Steps
+
+1. go to `http://localhost:8080/h2-console`
+2. login with credentials:
+	* JDBC URL: jdbc:h2:mem:test
+	* User Name: sa
+	* empty password
+
+#### Fix
+
+In `sec.project.config.SecurityConfiguration` remove the _h2-console_
+references used to enable the console for development:
+* the ant matcher _"/h2-console/\*\*"_ to remove access permissions
+* the two lines which made the console accessible in the browser:
+```
+http.csrf().disable();
+http.headers().frameOptions().disable();
+```

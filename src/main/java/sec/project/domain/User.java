@@ -12,7 +12,7 @@ public class User {
     private String username;
     private String password;
     private String fullname;
-    private String address;
+    private String status;
     @ManyToMany(mappedBy = "participants")
     private Set<Course> courses;
 
@@ -20,11 +20,11 @@ public class User {
         super();
     }
 
-    public User(String username, String password, String fullname, String address, Set<Course> courses) {
+    public User(String username, String password, String fullname, String status, Set<Course> courses) {
         this.username = username;
         this.password = password;
         this.fullname = fullname;
-        this.address = address;
+        this.status = status;
         this.courses = courses;
     }
 
@@ -52,12 +52,12 @@ public class User {
         this.fullname = fullname;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStatus() {
+        return status;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Set<Course> getCourses() {

@@ -20,7 +20,7 @@
                 <span th:text="${participant.getFullname()}">User Name</span>
                 <form action="#"
                       th:action="@{/course/disenrollUser/{course}/{user}(course=${course.getId()},user=${participant.getId()})}"
-                      method="POST">
+                      method="GET">
                     <input type="submit" value="Disenroll"/>
                 </form>
             </li>

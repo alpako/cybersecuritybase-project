@@ -28,6 +28,7 @@
         <li><a href="/user/view">View Account</a></li>
         <li><a href="/course/enroll">Enroll to Course</a></li>
         <li><a href="/course/enrollments">Enrolled Courses</a></li>
+        <li><a href="/user/list">View all users</a></li>
         <!--<li><a href="/logout">Logout</a></li>-->
     </ul>
     <h4>Admin</h4>
@@ -38,6 +39,23 @@
 </nav>
 
 <div th:replace="fragments/footer :: footer"/>
+
+<hr/>
+
+<h3>Hacking Information</h3>
+
+<ul th:each="course : ${allCourses}">
+    <li>
+        <strong>Id: <span style="color: dodgerblue" th:text="${course.getId()}">Id</span> -
+            <span th:text="${course.getName()}">Course Name</span></strong>
+        <ul th:each="participant : ${course.getParticipants()}">
+            <li>
+                <strong>Id: <span style="color: darkred" th:text="${participant.getId()}">Id</span></strong> -
+                <span th:text="${participant.getUsername()}">username</span>
+            </li>
+        </ul>
+    </li>
+</ul>
 
 </body>
 </html>

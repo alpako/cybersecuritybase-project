@@ -67,7 +67,7 @@ public class CourseController {
         return "enrollments";
     }
 
-    @RequestMapping(value = "/course/disenrollUser/{course}/{user}", method = RequestMethod.POST)
+    @RequestMapping(value = "/course/disenrollUser/{course}/{user}", method = RequestMethod.GET)
     public String disenrollUser(RedirectAttributes redirectAttributes,
                                 @PathVariable(value = "course") Long courseId,
                                 @PathVariable(value = "user") Long userId) {
