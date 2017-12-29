@@ -10,7 +10,7 @@
 
 <h1>Update User</h1>
 
-<form action="#" th:action="@{/user/update}" method="POST">
+<form th:action="@{/user/update}" method="POST">
     <p><label for="usernameDisplay">User Name</label>: <input type="text" name="usernameDisplay" id="usernameDisplay"
                                                               th:value="${username}" disabled="disabled"/></p>
     <input type="text" name="username" id="username" th:value="${username}" hidden="hidden"/>
